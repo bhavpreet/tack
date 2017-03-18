@@ -19,6 +19,7 @@ variable "key-name" {}
 variable "name" {}
 variable "region" {}
 variable "security-group-id" {}
+variable "default-group-id" {}
 variable "subnet-ids" {}
 variable "volume_size" {
   default = {

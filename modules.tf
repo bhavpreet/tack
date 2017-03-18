@@ -113,6 +113,7 @@ module "worker" {
   name = "${ var.name }"
   region = "${ var.aws["region"] }"
   security-group-id = "${ module.security.worker-id }"
+  default-group-id = "${ module.security.default-id }"
   subnet-ids = "${ module.vpc.subnet-ids-private }"
   volume_size = {
     ebs = 250
