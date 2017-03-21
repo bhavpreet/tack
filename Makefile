@@ -125,6 +125,10 @@ prereqs:
 ssh:
 	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh `terraform output etcd1-ip`"
 
+## mongodb
+ssh-mongodb:
+	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mongodb.test.kz8s"
+
 ## ssh into bastion host
 ssh-bastion:
 	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip`
