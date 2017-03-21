@@ -155,6 +155,19 @@ module "worker2" {
 }
 */
 
+module "mongodb" {
+  source = "./modules/mongodb"
+  depends-id = "${ module.route53.depends-id }"
+  name = "${ var.name }"
+  instance-type = "${ var.instance-type["mongodb"] }" 
+  key-name = "${ var.aws["key-name"] }"
+  region = "${ var.aws["region"] }"
+  security-group-id = "${ module.security.mongodb-id }"
+  default-group-id = "${ module.security.default-id }"
+  subnet-ids = "${ module.vpc.subnet-ids-public },${ module.vpc.subnet-ids-private }"
+  vpc-id = "${ module.vpc.id }"
+}
+
 module "kubeconfig" {
   source = "./modules/kubeconfig"
 

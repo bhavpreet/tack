@@ -32,6 +32,7 @@ variable "instance-type" {
     bastion = "t2.nano"
     etcd = "m3.medium"
     worker = "m3.medium"
+    mongodb = "m3.medium"
   }
 }
 variable "internal-tld" {}

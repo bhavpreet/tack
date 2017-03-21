@@ -139,3 +139,31 @@ resource "aws_default_security_group" "default" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_security_group" "mongodb" {
+  description = "k8s mongodb security group"
+
+  egress = {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  ingress = {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  name = "mongodb-k8s-${ var.name }"
+
+  tags {
+    KubernetesCluster = "${ var.name }"
+    Name = "mongodb-k8s-${ var.name }"
+    builtWith = "terraform"
+  }
+
+  vpc_id = "${ var.vpc-id }"
+}
