@@ -3,8 +3,8 @@ variable "bucket-prefix" {}
 variable "capacity" {
   default = {
     desired = 5
-    max = 5
-    min = 3
+    max = 10
+    min = 5
   }
 }
 variable "cluster-domain" {}
