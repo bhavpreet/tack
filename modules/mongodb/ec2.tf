@@ -29,9 +29,9 @@ resource "aws_instance" "mongodb" {
     volume_type = "gp2"
   }
 
-  security_groups = [
-    "${ var.security-group-id }",
-    "${ var.default-group-id }"
+  vpc_security_group_ids = [
+      "${ var.security-group-id }",
+      "${ var.default-group-id }"
   ]
   
   tags {

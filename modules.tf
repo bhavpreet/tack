@@ -99,9 +99,9 @@ module "worker" {
   ami-id = "${ var.coreos-aws["ami"] }"
   bucket-prefix = "${ var.s3-bucket }"
   capacity = {
-    desired = 3
-    max = 5
-    min = 3
+    desired = 5
+    max = 10
+    min = 5
   }
   cluster-domain = "${ var.cluster-domain }"
   hyperkube-image = "${ var.k8s["hyperkube-image"] }"
