@@ -44,6 +44,7 @@ module "route53" {
   depends-id = "${ module.iam.depends-id }"
 
   etcd-ips = "${ var.etcd-ips }"
+  mongodb-ip = "${ module.mongodb.mongodb-ip }"
   internal-tld = "${ var.internal-tld }"
   name = "${ var.name }"
   vpc-id = "${ module.vpc.id }"
@@ -160,6 +161,7 @@ module "mongodb" {
   depends-id = "${ module.route53.depends-id }"
   name = "${ var.name }"
   instance-type = "${ var.instance-type["mongodb"] }" 
+  # internal-tld = "${ var.internal-tld }"
   key-name = "${ var.aws["key-name"] }"
   region = "${ var.aws["region"] }"
   security-group-id = "${ module.security.mongodb-id }"

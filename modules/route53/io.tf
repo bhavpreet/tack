@@ -1,5 +1,6 @@
 variable "depends-id" {}
 variable "etcd-ips" {}
+variable "mongodb-ip" {}
 variable "internal-tld" {}
 variable "name" {}
 variable "vpc-id" {}
