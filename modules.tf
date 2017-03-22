@@ -45,6 +45,7 @@ module "route53" {
 
   etcd-ips = "${ var.etcd-ips }"
   mongodb-ip = "${ module.mongodb.mongodb-ip }"
+  elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
   internal-tld = "${ var.internal-tld }"
   name = "${ var.name }"
   vpc-id = "${ module.vpc.id }"
@@ -165,6 +166,20 @@ module "mongodb" {
   key-name = "${ var.aws["key-name"] }"
   region = "${ var.aws["region"] }"
   security-group-id = "${ module.security.mongodb-id }"
+  default-group-id = "${ module.security.default-id }"
+  subnet-ids = "${ module.vpc.subnet-ids-public },${ module.vpc.subnet-ids-private }"
+  vpc-id = "${ module.vpc.id }"
+}
+
+module "elasticsearch" {
+  source = "./modules/elasticsearch"
+  depends-id = "${ module.route53.depends-id }"
+  name = "${ var.name }"
+  instance-type = "${ var.instance-type["elasticsearch"] }" 
+  # internal-tld = "${ var.internal-tld }"
+  key-name = "${ var.aws["key-name"] }"
+  region = "${ var.aws["region"] }"
+  security-group-id = "${ module.security.elasticsearch-id }"
   default-group-id = "${ module.security.default-id }"
   subnet-ids = "${ module.vpc.subnet-ids-public },${ module.vpc.subnet-ids-private }"
   vpc-id = "${ module.vpc.id }"

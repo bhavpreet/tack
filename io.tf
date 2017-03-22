@@ -33,6 +33,7 @@ variable "instance-type" {
     etcd = "m3.medium"
     worker = "m3.medium"
     mongodb = "m3.medium"
+    elasticsearch = "m3.medium"
   }
 }
 variable "internal-tld" {}
@@ -61,6 +62,7 @@ output "cluster-domain" { value = "${ var.cluster-domain }" }
 output "dns-service-ip" { value = "${ var.dns-service-ip }" }
 output "etcd1-ip" { value = "${ element( split(",", var.etcd-ips), 0 ) }" }
 output "mongodb-ip" { value = "${ module.mongodb.mongodb-ip }" }
+output "elasticsearch-ip" { value = "${ module.elasticsearch.elasticsearch-ip }" }
 output "external-elb" { value = "${ module.etcd.external-elb }" }
 output "internal-tld" { value = "${ var.internal-tld }" }
 output "name" { value = "${ var.name }" }

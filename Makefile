@@ -129,6 +129,9 @@ ssh:
 ssh-mongodb:
 	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mongodb.${CLUSTER_NAME}.kz8s"
 
+ssh-elastic:
+	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu elasticsearch.${CLUSTER_NAME}.kz8s"
+
 ## ssh into bastion host
 ssh-bastion:
 	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip`

@@ -167,3 +167,31 @@ resource "aws_security_group" "mongodb" {
 
   vpc_id = "${ var.vpc-id }"
 }
+
+resource "aws_security_group" "elasticsearch" {
+  description = "k8s elasticsearch security group"
+
+  egress = {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  ingress = {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  name = "elasticsearch-k8s-${ var.name }"
+
+  tags {
+    KubernetesCluster = "${ var.name }"
+    Name = "elasticsearch-k8s-${ var.name }"
+    builtWith = "terraform"
+  }
+
+  vpc_id = "${ var.vpc-id }"
+}
