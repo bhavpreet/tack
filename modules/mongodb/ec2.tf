@@ -38,7 +38,7 @@ resource "aws_instance" "mongodb" {
     builtWith = "terraform"
     depends-id = "${ var.depends-id }"
     kz8s = "${ var.name }"
-    Name = "kz8s-mongodb"
+    Name = "kz8s-${ var.name }-mongodb"
     role = "mongodb"
     visibility = "private"
   }

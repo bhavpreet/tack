@@ -27,7 +27,7 @@ resource "aws_elb" "external" {
   tags {
     builtWith = "terraform"
     kz8s = "${ var.name }"
-    Name = "kz8s-apiserver"
+    Name = "kz8s-${ var.name }-apiserver"
     role = "apiserver"
     version = "${ var.hyperkube-tag }"
     visibility = "public"

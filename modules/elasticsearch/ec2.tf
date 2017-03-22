@@ -38,7 +38,7 @@ resource "aws_instance" "elasticsearch" {
     builtWith = "terraform"
     depends-id = "${ var.depends-id }"
     kz8s = "${ var.name }"
-    Name = "kz8s-elasticsearch"
+    Name = "kz8s-${ var.name }-elasticsearch"
     role = "elasticsearch"
     visibility = "private"
   }

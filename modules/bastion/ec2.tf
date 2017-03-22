@@ -14,7 +14,7 @@ resource "aws_instance" "bastion" {
     builtWith = "terraform"
     kz8s = "${ var.name }"
     depends-id = "${ var.depends-id }"
-    Name = "kz8s-bastion"
+    Name = "kz8s-${ var.name }-bastion"
     role = "bastion"
   }
 
