@@ -32,8 +32,8 @@ variable "instance-type" {
     bastion = "t2.nano"
     etcd = "m3.medium"
     worker = "m3.medium"
-    mongodb = "m3.medium"
-    elasticsearch = "m3.medium"
+    mongodb = "t2.micro"
+    elasticsearch = "t2.micro"
   }
 }
 variable "internal-tld" {}
