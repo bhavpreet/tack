@@ -1,3 +1,4 @@
+variable "ami-id" {}
 variable "depends-id" {}
 variable "instance-type" {}
 variable "key-name" {}

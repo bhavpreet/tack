@@ -195,3 +195,31 @@ resource "aws_security_group" "elasticsearch" {
 
   vpc_id = "${ var.vpc-id }"
 }
+
+resource "aws_security_group" "mysql" {
+  description = "k8s mysql security group"
+
+  egress = {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  ingress = {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [ "0.0.0.0/0" ]
+  }
+
+  name = "mysql-k8s-${ var.name }"
+
+  tags {
+    KubernetesCluster = "${ var.name }"
+    Name = "mysql-k8s-${ var.name }"
+    builtWith = "terraform"
+  }
+
+  vpc_id = "${ var.vpc-id }"
+}

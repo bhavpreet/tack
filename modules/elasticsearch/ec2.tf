@@ -1,21 +1,5 @@
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*"] 
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
 resource "aws_instance" "elasticsearch" {
-  ami           = "${data.aws_ami.ubuntu.id}"
+  ami           = "${ var.ami-id }"
   instance_type = "${ var.instance-type }"
   key_name = "${ var.key-name }"
   associate_public_ip_address = true

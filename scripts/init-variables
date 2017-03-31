@@ -31,6 +31,12 @@ COREOS_AMI_ID=`curl -s \
   $(printf "http://%s.release.core-os.net/amd64-usr/current/coreos_production_ami_%s_%s.txt" \
     $COREOS_CHANNEL $COREOS_VM_TYPE $AWS_REGION)`
 
+UBUNTU_AMI_ID=`aws ec2 describe-images --filters Name=root-device-type,Values=ebs \
+    Name=architecture,Values=x86_64 \
+    Name=virtualization-type,Values=hvm \
+    Name=name,Values=*ubuntu-xenial-16.04-amd64-server-* \
+    --query 'Images[*].{ID:ImageId}' --output text| tail -1`
+
 AWS_ACCOUNT_ID=`aws iam get-user --output json \
 	| awk '/arn:aws:/{print $2}' \
 	| grep -Eo '[[:digit:]]{12}'`
@@ -60,10 +66,12 @@ coreos-aws = {
   channel = "${COREOS_CHANNEL}"
   type = "${COREOS_VM_TYPE}"
 }
+
 k8s = {
     hyperkube-image = "${HYPERKUBE_IMAGE}"
     hyperkube-tag = "${HYPERKUBE_TAG}"
 }
+ubuntu-ami-id = "${UBUNTU_AMI_ID}"
 dns-service-ip = "${K8S_DNS_IP}"
 internal-tld = "${INTERNAL_TLD}"
 k8s-service-ip = "${K8S_SERVICE_IP}"

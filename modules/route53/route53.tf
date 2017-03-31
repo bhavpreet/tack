@@ -49,6 +49,16 @@ resource "aws_route53_record" "A-elasticsearch" {
   zone_id = "${ aws_route53_zone.internal.zone_id }"
 }
 
+resource "aws_route53_record" "A-mysql" {
+  name = "mysql"
+  ttl = "300"
+  type = "A"
+  records = [
+    "${ split(",", var.mysql-ip) }"
+  ]
+  zone_id = "${ aws_route53_zone.internal.zone_id }"
+}
+
 resource "aws_route53_record" "CNAME-master" {
   name = "master"
   records = [ "etcd.${ var.internal-tld }" ]

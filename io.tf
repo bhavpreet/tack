@@ -25,6 +25,8 @@ variable "coreos-aws" {
     type = ""
   }
 }
+
+variable "ubuntu-ami-id" { default = "" }
 variable "dns-service-ip" { default = "10.3.0.10" }
 variable "etcd-ips" { default = "10.0.10.10,10.0.10.11,10.0.10.12" }
 variable "instance-type" {
@@ -34,6 +36,7 @@ variable "instance-type" {
     worker = "m3.medium"
     mongodb = "t2.micro"
     elasticsearch = "t2.micro"
+    mysql = "t2.micro"
   }
 }
 variable "internal-tld" {}
@@ -63,6 +66,7 @@ output "dns-service-ip" { value = "${ var.dns-service-ip }" }
 output "etcd1-ip" { value = "${ element( split(",", var.etcd-ips), 0 ) }" }
 output "mongodb-ip" { value = "${ module.mongodb.mongodb-ip }" }
 output "elasticsearch-ip" { value = "${ module.elasticsearch.elasticsearch-ip }" }
+output "mysql-ip" { value = "${ module.mysql.mysql-ip }" }
 output "external-elb" { value = "${ module.etcd.external-elb }" }
 output "internal-tld" { value = "${ var.internal-tld }" }
 output "name" { value = "${ var.name }" }

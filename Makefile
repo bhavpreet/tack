@@ -12,7 +12,7 @@ AWS_REGION ?= us-east-1
 COREOS_CHANNEL ?= stable
 COREOS_VM_TYPE ?= hvm
 
-CLUSTER_NAME ?= devx
+CLUSTER_NAME ?= dev
 AWS_EC2_KEY_NAME ?= kz8s-$(CLUSTER_NAME)
 
 INTERNAL_TLD := ${CLUSTER_NAME}.kz8s
@@ -80,7 +80,7 @@ all: prereqs create-keypair ssl init apply
 .cfssl: ; ./scripts/init-cfssl ${DIR_SSL} ${AWS_REGION} ${INTERNAL_TLD} ${K8S_SERVICE_IP}
 
 ## destroy and remove everything
-clean: destroy delete-keypair
+clean: delete-addons destroy delete-keypair
 	@-pkill -f "kubectl proxy" ||:
 	@-rm -rf .addons ||:
 	@-rm terraform.tfvars ||:
@@ -93,6 +93,11 @@ create-addons:
 	@echo "${BLUE}❤ create add-ons ${NC}"
 	kubectl create -f .addons/
 	@echo "${GREEN}✓ create add-ons - success ${NC}\n"
+
+delete-addons:
+	@echo "${BLUE}x delete add-ons ${NC}"
+	kubectl delete -f .addons/
+	@echo "${GREEN}✓ delete add-ons - success ${NC}\n"
 
 create-busybox:
 	@echo "${BLUE}❤ create busybox test pod ${NC}"

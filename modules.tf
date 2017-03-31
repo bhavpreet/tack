@@ -46,6 +46,7 @@ module "route53" {
   etcd-ips = "${ var.etcd-ips }"
   mongodb-ip = "${ module.mongodb.mongodb-ip }"
   elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
+  mysql-ip = "${ module.mysql.mysql-ip }"
   internal-tld = "${ var.internal-tld }"
   name = "${ var.name }"
   vpc-id = "${ module.vpc.id }"
@@ -161,6 +162,7 @@ module "mongodb" {
   source = "./modules/mongodb"
   depends-id = "${ module.route53.depends-id }"
   name = "${ var.name }"
+  ami-id = "${ var.ubuntu-ami-id }"
   instance-type = "${ var.instance-type["mongodb"] }" 
   # internal-tld = "${ var.internal-tld }"
   key-name = "${ var.aws["key-name"] }"
@@ -174,12 +176,30 @@ module "mongodb" {
 module "elasticsearch" {
   source = "./modules/elasticsearch"
   depends-id = "${ module.route53.depends-id }"
+  ami-id = "${ var.ubuntu-ami-id }"
   name = "${ var.name }"
   instance-type = "${ var.instance-type["elasticsearch"] }" 
   # internal-tld = "${ var.internal-tld }"
   key-name = "${ var.aws["key-name"] }"
   region = "${ var.aws["region"] }"
   security-group-id = "${ module.security.elasticsearch-id }"
+  default-group-id = "${ module.security.default-id }"
+  subnet-ids = "${ module.vpc.subnet-ids-public },${ module.vpc.subnet-ids-private }"
+  vpc-id = "${ module.vpc.id }"
+}
+
+module "mysql" {
+  source = "./modules/mysql"
+  depends-id = "${ module.route53.depends-id }"
+  name = "${ var.name }"
+
+  ami-id = "${ var.ubuntu-ami-id }"
+
+  instance-type = "${ var.instance-type["mysql"] }" 
+  # internal-tld = "${ var.internal-tld }"
+  key-name = "${ var.aws["key-name"] }"
+  region = "${ var.aws["region"] }"
+  security-group-id = "${ module.security.mysql-id }"
   default-group-id = "${ module.security.default-id }"
   subnet-ids = "${ module.vpc.subnet-ids-public },${ module.vpc.subnet-ids-private }"
   vpc-id = "${ module.vpc.id }"
