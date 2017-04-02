@@ -138,8 +138,7 @@ ssh-elastic:
 	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu elasticsearch.${CLUSTER_NAME}.kz8s"
 
 ssh-mysql:
-	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mysql.${CLUSTER_NAME}
-.kz8s"
+	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mysql.${CLUSTER_NAME}.kz8s"
 
 ## ssh into bastion host
 ssh-bastion:
