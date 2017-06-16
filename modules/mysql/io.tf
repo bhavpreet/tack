@@ -10,7 +10,7 @@ variable "subnet-ids" {}
 variable "volume_size" {
   default = {
     ebs = 250
-    root = 52
+    root = 8
   }
 }
 variable "vpc-id" {}

@@ -1,9 +1,9 @@
 resource "aws_launch_configuration" "worker" {
-  ebs_block_device {
-    device_name = "/dev/xvdf"
-    volume_size = "${ var.volume_size["ebs"] }"
-    volume_type = "gp2"
-  }
+  # ebs_block_device {
+  #   device_name = "/dev/xvdf"
+  #   volume_size = "${ var.volume_size["ebs"] }"
+  #   volume_type = "gp2"
+  # }
 
   iam_instance_profile = "${ var.instance-profile-name }"
   image_id = "${ var.ami-id }"
@@ -13,7 +13,7 @@ resource "aws_launch_configuration" "worker" {
   # Storage
   root_block_device {
     volume_size = "${ var.volume_size["root"] }"
-    volume_type = "gp2"
+    volume_type = "standard"
   }
 
     security_groups = [
@@ -23,9 +23,9 @@ resource "aws_launch_configuration" "worker" {
 
   user_data = "${ data.template_file.cloud-config.rendered }"
 
-  /*lifecycle {
+  lifecycle {
     create_before_destroy = true
-  }*/
+  }
 }
 
 resource "aws_autoscaling_group" "worker" {

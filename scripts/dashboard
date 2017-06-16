@@ -15,8 +15,10 @@ command -v ${OPEN} &> /dev/null
 kubectl cluster-info &> /dev/null
 [ $? -ne 0 ] && ( echo "cluster is not healthy" ; exit 1 )
 
-kubectl proxy &
-echo "✓ kubectl proxy is listening"
+# kubectl proxy &
+# echo "✓ kubectl proxy is listening"
 
-${OPEN} http://localhost:8001/ui
+# ${OPEN} http://localhost:8001/ui
+
+kubectl proxy --address=0.0.0.0 -p 8081 --accept-hosts='^.*$'
 sleep 1 && echo " "

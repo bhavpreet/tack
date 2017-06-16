@@ -9,7 +9,7 @@ resource "aws_instance" "etcd" {
   private_ip = "${ element(split(",", var.etcd-ips), count.index) }"
 
   root_block_device {
-    volume_size = 124
+    volume_size = 10
     volume_type = "gp2"
   }
 
