@@ -105,8 +105,6 @@ create-addons:
 	scripts/create-kube-dns-service
 	scripts/create-kube-system-configmap
 	kubectl apply --recursive -f addons
-
-x:
 	scripts/create-kube-persistent-volume
 
 # delete-addons:
