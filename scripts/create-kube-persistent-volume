@@ -13,6 +13,6 @@ spec:
   accessModes:
     - ReadWriteMany
   nfs:
-    server: ${PERSISTENT_VOLUME}
+    server: ${PERSISTENT_VOLUME_DNS_NAME}
     path: "/"
 EOF

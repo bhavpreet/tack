@@ -45,7 +45,7 @@ export ETCD_IPS             ?= 10.0.10.10,10.0.10.11,10.0.10.12
 
 export PKI_IP               ?= 10.0.10.9
 
-export PERSISTENT_VOLUME    ?= fs-xxxxxxxx.efs.us-east-1.amazonaws.com
+export PERSISTENT_VOLUME_DNS_NAME    ?= fs-xxxxxxxx.efs.us-east-1.amazonaws.com
 
 # Alternative:
 # CIDR_PODS ?= "172.15.0.0/16"
@@ -107,10 +107,10 @@ create-addons:
 	kubectl apply --recursive -f addons
 	scripts/create-kube-persistent-volume
 
-# delete-addons:
-# 	@echo "${BLUE}x delete add-ons ${NC}"
-# 	kubectl delete -f .addons/
-# 	@echo "${GREEN}✓ delete add-ons - success ${NC}\n"
+delete-addons:
+	@echo "${BLUE}x delete add-ons ${NC}"
+	kubectl delete --recursive -f addons
+	@echo "${GREEN}✓ delete add-ons - success ${NC}\n"
 
 create-admin-certificate: ; @scripts/do-task "create admin certificate" \
 	scripts/create-admin-certificate
@@ -140,13 +140,13 @@ ssh: ; @scripts/ssh "ssh `terraform output etcd1-ip`"
 
 ## mongodb
 ssh-mongodb:
-	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mongodb.${CLUSTER_NAME}.kz8s"
+	@scripts/ssh "ssh -lubuntu `terraform output mongodb-ip`"
 
 ssh-elastic:
-	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu elasticsearch.${CLUSTER_NAME}.kz8s"
+	@scripts/ssh "ssh -lubuntu `terraform output bastion-ip`"
 
 ssh-mysql:
-	@scripts/ssh ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem `terraform output bastion-ip` "ssh -lubuntu mysql.${CLUSTER_NAME}.kz8s"
+	@scripts/ssh "ssh -lubuntu `terraform output bastion-ip`"
 
 ## ssh into bastion host
 ssh-bastion: ; @scripts/ssh
