@@ -45,6 +45,8 @@ export ETCD_IPS             ?= 10.0.10.10,10.0.10.11,10.0.10.12
 
 export PKI_IP               ?= 10.0.10.9
 
+export PERSISTENT_VOLUME    ?= fs-xxxxxxxx.efs.us-east-1.amazonaws.com
+
 # Alternative:
 # CIDR_PODS ?= "172.15.0.0/16"
 # CIDR_SERVICE_CLUSTER ?= "172.16.0.0/24"
@@ -103,6 +105,9 @@ create-addons:
 	scripts/create-kube-dns-service
 	scripts/create-kube-system-configmap
 	kubectl apply --recursive -f addons
+
+x:
+	scripts/create-kube-persistent-volume
 
 # delete-addons:
 # 	@echo "${BLUE}x delete add-ons ${NC}"

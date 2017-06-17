@@ -139,7 +139,7 @@ module "worker" {
   ami-id = "${ var.coreos-aws["ami"] }"
   aws = "${ var.aws }"
   capacity = {
-    desired = 3
+    desired = 1
     max = 5
     min = 1
   }
