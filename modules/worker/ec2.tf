@@ -8,7 +8,7 @@ resource "aws_launch_configuration" "worker" {
   iam_instance_profile = "${ var.instance-profile-name }"
   image_id = "${ var.ami-id }"
   instance_type = "${ var.instance-type }"
-  key_name = "${ var.key-name }"
+  key_name = "${ var.aws["key-name"] }"
 
   # Storage
   root_block_device {
@@ -38,7 +38,7 @@ resource "aws_autoscaling_group" "worker" {
   launch_configuration = "${ aws_launch_configuration.worker.name }"
   max_size = "${ var.capacity["max"] }"
   min_size = "${ var.capacity["min"] }"
-  vpc_zone_identifier = [ "${ split(",", var.subnet-ids) }" ]
+  vpc_zone_identifier = [ "${ var.subnet-id }" ]
 
   tag {
     key = "builtWith"
@@ -79,7 +79,7 @@ resource "aws_autoscaling_group" "worker" {
 
   tag {
     key = "version"
-    value = "${ var.hyperkube-tag }"
+    value = "${ var.k8s["hyperkube-tag"] }"
     propagate_at_launch = true
   }
 

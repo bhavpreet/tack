@@ -5,13 +5,12 @@ resource "aws_elb" "external" {
 
   health_check {
     healthy_threshold = 2
-    unhealthy_threshold = 2
+    unhealthy_threshold = 6
     timeout = 3
-    target = "HTTP:8080/"
-    interval = 30
+    target = "SSL:443"
+    interval = 10
   }
 
-  instances = [ "${ aws_instance.etcd.*.id }" ]
   idle_timeout = 3600
 
   listener {
@@ -22,15 +21,22 @@ resource "aws_elb" "external" {
   }
 
   security_groups = [ "${ var.external-elb-security-group-id }" ]
-  subnets = [ "${ split(",", var.subnet-ids-public) }" ]
+  subnets = [ "${ var.subnet-id-public }" ]
 
   tags {
     builtWith = "terraform"
-    kz8s = "${ var.name }"
-    Name = "kz8s-${ var.name }-apiserver"
+    kz8s = "${ var.name }i"
+    Name = "kz8s-apiserver"
     role = "apiserver"
-    version = "${ var.hyperkube-tag }"
+    version = "${ var.k8s["hyperkube-tag"] }"
     visibility = "public"
     KubernetesCluster = "${ var.name }"
   }
+}
+
+resource "aws_elb_attachment" "master" {
+  count = "${ length( split(",", var.etcd-ips) ) }"
+
+  elb      = "${ aws_elb.external.id }"
+  instance = "${ element(aws_instance.etcd.*.id, count.index) }"
 }

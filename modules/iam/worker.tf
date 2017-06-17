@@ -1,5 +1,5 @@
 resource "aws_iam_role" "worker" {
-  name = "worker-k8s-${ var.name }"
+  name = "kz8s-worker-${ var.name }"
 
   assume_role_policy = <<EOS
 {
@@ -18,25 +18,24 @@ EOS
 }
 
 resource "aws_iam_instance_profile" "worker" {
-  name = "worker-k8s-${ var.name }"
+  name = "kz8s-worker-${ var.name }"
 
   role = "${ aws_iam_role.worker.name }"
 }
 
 resource "aws_iam_role_policy" "worker" {
-  name = "worker-k8s-${var.name}"
+  name = "kz8s-worker-${var.name}"
   role = "${ aws_iam_role.worker.id }"
   policy = <<EOS
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Effect": "Allow",
       "Action": [
-        "s3:List*",
-        "s3:Get*"
+        "s3:GetObject"
       ],
-      "Resource": [ "arn:aws:s3:::${ var.bucket-prefix }/*" ]
+      "Effect": "Allow",
+      "Resource": [ "${ var.s3-bucket-arn }/ca.pem" ]
     },
     {
       "Effect": "Allow",
@@ -44,10 +43,6 @@ resource "aws_iam_role_policy" "worker" {
         "ec2:Describe*",
         "ec2:AttachVolume",
         "ec2:DetachVolume",
-        "ec2:CreateRoute",
-        "ec2:DeleteRoute",
-        "ec2:ReplaceRoute",
-        "ec2:DescribeRouteTables",
         "ec2:DescribeInstances"
       ],
       "Resource": "*"
@@ -68,10 +63,10 @@ resource "aws_iam_role_policy" "worker" {
     {
       "Effect": "Allow",
       "Action": [
-          "autoscaling:DescribeAutoScalingGroups",
-          "autoscaling:DescribeAutoScalingInstances",
-          "autoscaling:SetDesiredCapacity",
-          "autoscaling:TerminateInstanceInAutoScalingGroup"
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:SetDesiredCapacity",
+        "autoscaling:TerminateInstanceInAutoScalingGroup"
       ],
       "Resource": "*"
     }

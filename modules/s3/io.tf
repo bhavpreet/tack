@@ -1,11 +1,8 @@
-variable "bucket-prefix" {}
-variable "hyperkube-image" {}
-variable "hyperkube-tag" {}
-variable "depends-id" {}
-variable "internal-tld" {}
+variable "aws" {
+  type = "map"
+}
+variable "bucket" {}
 variable "name" {}
-variable "region" {}
-variable "service-cluster-ip-range" {}
 
-output "bucket-prefix" { value = "${ var.bucket-prefix }" }
-output "depends-id" { value = "${ null_resource.dummy_dependency.id }" }
+output "bucket" { value = "${ var.bucket }" }
+output "bucket-arn" { value = "${ aws_s3_bucket.pki.arn }" }

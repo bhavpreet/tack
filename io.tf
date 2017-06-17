@@ -32,6 +32,7 @@ variable "etcd-ips" { default = "10.0.10.10,10.0.10.11,10.0.10.12" }
 variable "instance-type" {
   default = {
     bastion = "t2.nano"
+    pki = "t2.nano"
     etcd = "t2.small"
     worker = "t2.small"
     mongodb = "t2.micro"
@@ -48,6 +49,7 @@ variable "k8s" {
 }
 variable "k8s-service-ip" { default = "10.3.0.1" }
 variable "name" {}
+variable "pki-ip" {}
 variable "s3-bucket" {}
 variable "vpc-existing" {
   default = {
@@ -70,8 +72,20 @@ output "mysql-ip" { value = "${ module.mysql.mysql-ip }" }
 output "external-elb" { value = "${ module.etcd.external-elb }" }
 output "internal-tld" { value = "${ var.internal-tld }" }
 output "name" { value = "${ var.name }" }
+output "pki-ip" { value = "${ module.pki.ip }" }
 output "region" { value = "${ var.aws["region"] }" }
-output "s3-bucket" { value = "${ var.s3-bucket }" }
+output "s3-bucket" { value = "${ module.s3.bucket }" }
 output "subnet-ids-private" { value = "${ module.vpc.subnet-ids-private }" }
 output "subnet-ids-public" { value = "${ module.vpc.subnet-ids-public }" }
 output "worker-autoscaling-group-name" { value = "${ module.worker.autoscaling-group-name }" }
+
+output "ips" {
+  value = "${
+    map(
+      "bastion", "${ module.bastion.ip }",
+      "dns-service", "${ var.dns-service-ip }",
+      "etcd", "${ var.etcd-ips }",
+      "pki", "${ module.pki.ip }",
+    )
+  }"
+}

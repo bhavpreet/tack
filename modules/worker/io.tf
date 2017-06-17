@@ -1,5 +1,7 @@
 variable "ami-id" {}
-variable "bucket-prefix" {}
+variable "aws" {
+  type = "map"
+}
 variable "capacity" {
   default = {
     desired = 5
@@ -8,19 +10,19 @@ variable "capacity" {
   }
 }
 variable "cluster-domain" {}
-variable "hyperkube-image" {}
-variable "hyperkube-tag" {}
 variable "depends-id" {}
 variable "dns-service-ip" {}
 variable "instance-profile-name" {}
 variable "instance-type" {}
 variable "internal-tld" {}
-variable "key-name" {}
+variable "k8s" {
+  type = "map"
+}
 variable "name" {}
-variable "region" {}
+variable "s3-bucket" {}
 variable "security-group-id" {}
 variable "default-group-id" {}
-variable "subnet-ids" {}
+variable "subnet-id" {}
 variable "volume_size" {
   default = {
     ebs = 250

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "master" {
-  name = "master-k8s-${ var.name }"
+  name = "kz8s-master-${ var.name }"
 
   assume_role_policy = <<EOS
 {
@@ -16,13 +16,13 @@ EOS
 }
 
 resource "aws_iam_instance_profile" "master" {
-  name = "master-k8s-${ var.name }"
+  name = "kz8s-master-${ var.name }"
 
   role = "${ aws_iam_role.master.name }"
 }
 
 resource "aws_iam_role_policy" "master" {
-  name = "master-k8s-${ var.name }"
+  name = "kz8s-master-${ var.name }"
 
   policy = <<EOS
 {
@@ -30,15 +30,20 @@ resource "aws_iam_role_policy" "master" {
   "Statement": [
     {
       "Action": [
-        "s3:List*",
         "s3:Get*"
       ],
       "Effect": "Allow",
-      "Resource": [ "arn:aws:s3:::${ var.bucket-prefix }/*" ]
+      "Resource": [ "${ var.s3-bucket-arn }/*" ]
     },
     {
       "Action": [
-        "ec2:*",
+        "ec2:AttachVolume",
+        "ec2:CreateTags",
+        "ec2:CreateVolume",
+        "ec2:DeleteVolume",
+        "ec2:Describe*",
+        "ec2:DescribeInstances",
+        "ec2:DetachVolume",
         "elasticloadbalancing:*"
         ],
       "Effect": "Allow",
@@ -54,6 +59,16 @@ resource "aws_iam_role_policy" "master" {
         "ecr:DescribeRepositories",
         "ecr:ListImages",
         "ecr:BatchGetImage"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:SetDesiredCapacity",
+        "autoscaling:TerminateInstanceInAutoScalingGroup"
       ],
       "Resource": "*"
     }

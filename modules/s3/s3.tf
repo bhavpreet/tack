@@ -1,30 +1,16 @@
-resource "aws_s3_bucket" "ssl" {
+resource "aws_s3_bucket" "pki" {
+
   acl = "private"
-  bucket = "${ var.bucket-prefix }"
+  bucket = "${ var.bucket }"
   force_destroy = true
+
+  region = "${ var.aws["region"] }"
 
   tags {
     builtWith = "terraform"
     KubernetesCluster = "${ var.name }"
-    Name = "kz8s-${ var.name }"
-    version = "${ var.hyperkube-tag }"
+    kz8s = "${ var.name }"
+    Name = "${ var.name }"
   }
 
-  provisioner "local-exec" {
-    command = <<EOF
-
-HYPERKUBE=${ var.hyperkube-image }:${ var.hyperkube-tag } \
-INTERNAL_TLD=${ var.internal-tld } \
-REGION=${ var.region } \
-SERVICE_CLUSTER_IP_RANGE=${ var.service-cluster-ip-range } \
-${ path.module }/s3-cp ${ var.bucket-prefix }
-EOF
-
-  }
-
-  region = "${ var.region }"
-}
-
-resource "null_resource" "dummy_dependency" {
-  depends_on = [ "aws_s3_bucket.ssl" ]
 }
