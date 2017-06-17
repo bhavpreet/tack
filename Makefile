@@ -22,10 +22,10 @@ export DIR_KUBECONFIG := .kube
 
 # ∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨∨
 
-export AWS_REGION           ?= us-west-2
+export AWS_REGION           ?= us-east-1
 export COREOS_CHANNEL       ?= stable
 export COREOS_VM_TYPE       ?= hvm
-export CLUSTER_NAME         ?= test
+export CLUSTER_NAME         ?= dev
 
 export AWS_EC2_KEY_NAME     ?= kz8s-$(CLUSTER_NAME)
 export AWS_EC2_KEY_PATH     := ${DIR_KEY_PAIR}/${AWS_EC2_KEY_NAME}.pem
@@ -90,7 +90,7 @@ post-terraform:
 
 
 ## destroy and remove everything
-clean: delete-addons destroy delete-keypair
+clean: destroy delete-keypair
 	@-pkill -f "kubectl proxy" ||:
 	@-rm terraform.tfvars ||:
 	@-rm terraform.tfplan ||:
@@ -104,10 +104,10 @@ create-addons:
 	scripts/create-kube-system-configmap
 	kubectl apply --recursive -f addons
 
-delete-addons:
-	@echo "${BLUE}x delete add-ons ${NC}"
-	kubectl delete -f .addons/
-	@echo "${GREEN}✓ delete add-ons - success ${NC}\n"
+# delete-addons:
+# 	@echo "${BLUE}x delete add-ons ${NC}"
+# 	kubectl delete -f .addons/
+# 	@echo "${GREEN}✓ delete add-ons - success ${NC}\n"
 
 create-admin-certificate: ; @scripts/do-task "create admin certificate" \
 	scripts/create-admin-certificate

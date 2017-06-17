@@ -25,6 +25,9 @@ module "route53" {
 
   # variables
   etcd-ips = "${ var.etcd-ips }"
+  mongodb-ip = "${ module.mongodb.mongodb-ip }"
+  elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
+  mysql-ip = "${ module.mysql.mysql-ip }"
   internal-tld = "${ var.internal-tld }"
   name = "${ var.name }"
 
@@ -84,10 +87,6 @@ module "bastion" {
   source = "./modules/bastion"
   depends-id = "${ module.vpc.depends-id }"
 
-  # etcd-ips = "${ var.etcd-ips }"
-  mongodb-ip = "${ module.mongodb.mongodb-ip }"
-  elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
-  mysql-ip = "${ module.mysql.mysql-ip }"
   # variables
   ami-id = "${ var.coreos-aws["ami"] }"
   instance-type = "${ var.instance-type["bastion"] }"
@@ -160,6 +159,7 @@ module "worker" {
   instance-profile-name = "${ module.iam.instance-profile-name-worker }"
   s3-bucket = "${ module.s3.bucket }"
   security-group-id = "${ module.security.worker-id }"
+  default-group-id = "${ module.security.default-id }"
   subnet-id = "${ element( split(",", module.vpc.subnet-ids-private), 0 ) }"
   vpc-id = "${ module.vpc.id }"
 }
