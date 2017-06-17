@@ -85,9 +85,9 @@ module "bastion" {
   depends-id = "${ module.vpc.depends-id }"
 
   # etcd-ips = "${ var.etcd-ips }"
-  # mongodb-ip = "${ module.mongodb.mongodb-ip }"
-  # elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
-  # mysql-ip = "${ module.mysql.mysql-ip }"
+  mongodb-ip = "${ module.mongodb.mongodb-ip }"
+  elasticsearch-ip = "${ module.elasticsearch.elasticsearch-ip }"
+  mysql-ip = "${ module.mysql.mysql-ip }"
   # variables
   ami-id = "${ var.coreos-aws["ami"] }"
   instance-type = "${ var.instance-type["bastion"] }"
